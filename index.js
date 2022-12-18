@@ -5,10 +5,10 @@ const button = document.getElementById("button");
 const sliderValue = document.getElementById("sliderValue");
 const slider = document.getElementById("numberOfAllocations");
 let tBodyEl = document.querySelector("tbody");
-let umrObjectArraySorted;
 let numberOfUsers = 0;
-
-const userArray = ["user1", "user2", "user2X", "user2C"];
+let userObj;
+let inputUMR;
+let userArray = [];
 
 slider.addEventListener("input", () => {
   sliderValue.innerHTML = slider.value;
@@ -25,140 +25,40 @@ button.addEventListener("click", () => {
   console.log(noOfAllocation);
 
   getUserList(noOfAllocation);
+
+  const umrInput = textareaInput.value;
+  inputUMR = umrInput.split("\n");
+
+  const umrWitNoBrokerCode = removeBrokerCode(inputUMR, 2);
+
+  const umrAndDupicate = getRepetetion(umrWitNoBrokerCode);
+
+  userObj = createUserObj(userArray);
+
+  allocate(umrAndDupicate, userObj);
+  const finalAllocation = swap(userObj);
+  console.log("here end");
+  console.log(finalAllocation);
 });
 
 function getUserList(count) {
-  console.log(`we have ${count} no of users`);
+  for (let i = 0; i < count; i++) {
+    let userName = prompt(`Enter Name of user ${i + 1}: `);
+    userArray.push(userName);
+  }
+  console.log(userArray);
 }
 
-let inputUMR = [
-  "aje",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "%%PencilXtest%%",
-  "Pencil",
-  "Binder",
-  "Pencil",
-  "Pen",
-  "Pencil",
-  "Binder",
-  "Pencil",
-  "Pencil",
-  "Pencil",
-  "Binder",
-  "Pencil",
-  "Binder",
-  "Binder",
-  "Pencil",
-  "Desk",
-  "Pen Set",
-  "Binder",
-  "Pen",
-  "Pen",
-  "Pen Set",
-  "Pencil",
-  "Pen Set",
-  "Binder",
-  "Binder",
-  "Binder",
-  "Binder",
-  "Pen Set",
-  "Pencil",
-  "Pen",
-  "Pencil",
-  "Binder",
-  "Desk",
-  "Pen Set",
-  "Pen Set",
-  "Pen Set",
-  "Desk",
-  "Pencil",
-  "Pen",
-  "Binder",
-  "Pencil",
-  "Binder",
-  "Binder",
-  "Binder",
-];
+// const umrInput = textareaInput.value;
+// const inputUMR = umrInput.split("\n");
 
-const umrWitNoBrokerCode = removeBrokerCode(inputUMR, 2);
+// const umrWitNoBrokerCode = removeBrokerCode(inputUMR, 2);
 
-const umrAndDupicate = getRepetetion(umrWitNoBrokerCode);
+// const umrAndDupicate = getRepetetion(umrWitNoBrokerCode);
 
-const userObj = createUserObj(userArray);
+// const userObj = createUserObj(userArray);
 
-allocate(umrAndDupicate, userObj);
-
-const finalAllocation = swap(userObj);
+// allocate(umrAndDupicate, userObj);
 
 function getRepetetion(umrWitNoBrokerCode) {
   let umrAndCount = [];
